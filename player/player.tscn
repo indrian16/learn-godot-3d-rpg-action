@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dupfsi0rcyijy"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_4wf0e"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7d1g4"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3sini"]
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_qalps"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_4wf0e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_7d1g4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_3sini")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0)
+shape = SubResource("SeparationRayShape3D_qalps")
+spring_length = 4.0
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="HorizontalPivot" type="Node3D" parent="."]
+
+[node name="VerticalPivot" type="Node3D" parent="HorizontalPivot"]
+
+[connection signal="ready" from="SpringArm3D" to="." method="_on_spring_arm_3d_ready"]
